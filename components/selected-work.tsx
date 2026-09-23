@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { productProjects, websiteProjects, type Project } from "@/data/projects";
+import { featuredProjects, productProjects, websiteProjects, type Project } from "@/data/projects";
 
 function ProjectRow({ project }: { project: Project }) {
   return (
     <article className="border-t border-line py-6">
-      <div className="grid gap-3 md:grid-cols-[9.5rem_minmax(0,1fr)] md:gap-8">
+      <div className="grid gap-4 sm:grid-cols-[9.5rem_minmax(0,1fr)] sm:gap-8">
         <p className="text-sm font-medium text-royal">{project.category}</p>
         <div>
           <h3 className="text-lg font-semibold tracking-tight text-navy">
@@ -12,14 +12,23 @@ function ProjectRow({ project }: { project: Project }) {
               {project.name}
             </Link>
           </h3>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">{project.summary}</p>
-          <p className="mt-3 text-sm text-navy/75">
-            {project.platforms.join(" · ")}
-            <span className="px-2 text-line">/</span>
-            {project.technologies.slice(0, 4).join(", ")}
+          <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted sm:text-sm sm:leading-6">
+            {project.summary}
           </p>
-          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold">
-            <Link href={`/work/${project.slug}`} className="text-royal hover:text-royal-dark">
+          <p className="mt-3 text-sm leading-6 text-navy sm:text-navy/80">
+            <span className="block sm:inline">{project.platforms.join(" · ")}</span>
+            <span className="mx-2 hidden text-line sm:inline" aria-hidden="true">
+              /
+            </span>
+            <span className="mt-1 block sm:mt-0 sm:inline">
+              {project.technologies.slice(0, 4).join(", ")}
+            </span>
+          </p>
+          <div className="mt-2 flex flex-col items-start text-sm font-semibold sm:mt-3 sm:flex-row sm:flex-wrap sm:gap-x-4 sm:gap-y-2">
+            <Link
+              href={`/work/${project.slug}`}
+              className="inline-flex min-h-11 items-center text-royal hover:text-royal-dark sm:min-h-0"
+            >
               Project details
             </Link>
             {project.links.map((link) => (
@@ -28,7 +37,7 @@ function ProjectRow({ project }: { project: Project }) {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-navy hover:text-royal"
+                className="inline-flex min-h-11 items-center text-navy hover:text-royal sm:min-h-0"
               >
                 {link.label}
                 <span className="sr-only"> (opens in a new tab)</span>
@@ -38,6 +47,28 @@ function ProjectRow({ project }: { project: Project }) {
         </div>
       </div>
     </article>
+  );
+}
+
+function ProjectGroup({
+  title,
+  projects,
+  heading,
+}: {
+  title: string;
+  projects: Project[];
+  heading: boolean;
+}) {
+  const Title = heading ? "h2" : "p";
+  return (
+    <div>
+      <Title className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">{title}</Title>
+      <div className="mt-2 border-b border-line">
+        {projects.map((project) => (
+          <ProjectRow key={project.slug} project={project} />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -56,44 +87,37 @@ export function SelectedWork({ embedded = false }: { embedded?: boolean }) {
             <h2 className="text-2xl font-bold tracking-tight text-navy sm:text-3xl">
               Selected work
             </h2>
-            <p className="mt-3 text-base leading-7 text-muted">
+            <p className="mt-3 text-base leading-relaxed text-muted">
               Products built under Eltemur Zentra Studio, and websites built for independent
-              specialists.{" "}
-              <Link href="/work" className="font-semibold text-royal">
-                Open the project index
-              </Link>
-              .
+              specialists.
             </p>
           </div>
         )}
 
-        <div className={embedded ? "mt-2" : "mt-8"}>
-          {embedded ? (
-            <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">Products</h2>
-          ) : (
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">Products</p>
-          )}
-          <div className="mt-2 border-b border-line">
-            {productProjects.map((project) => (
-              <ProjectRow key={project.slug} project={project} />
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-12">
-          {embedded ? (
-            <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">Websites</h2>
-          ) : (
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">Websites</p>
-          )}
-          <ul className="mt-2 border-b border-line">
-            {websiteProjects.map((project) => (
-              <li key={project.slug}>
-                <ProjectRow project={project} />
-              </li>
-            ))}
-          </ul>
-        </div>
+        {embedded ? (
+          <>
+            <div className="mt-2">
+              <ProjectGroup title="Products" projects={productProjects} heading />
+            </div>
+            <div className="mt-12">
+              <ProjectGroup title="Websites" projects={websiteProjects} heading />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="mt-8 border-b border-line">
+              {featuredProjects.map((project) => (
+                <ProjectRow key={project.slug} project={project} />
+              ))}
+            </div>
+            <Link
+              href="/work"
+              className="mt-6 inline-flex min-h-11 items-center text-sm font-semibold text-royal hover:text-royal-dark sm:min-h-0"
+            >
+              View All Projects
+            </Link>
+          </>
+        )}
       </div>
     </section>
   );

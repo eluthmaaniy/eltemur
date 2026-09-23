@@ -12,6 +12,7 @@ export type Project = {
   technologies: string[];
   links: ProjectLink[];
   group: "product" | "website";
+  featured?: boolean;
   problem?: string;
   solution?: string;
   features?: string[];
@@ -34,6 +35,7 @@ export const projects: Project[] = [
       },
     ],
     group: "product",
+    featured: true,
     problem:
       "The product was built for people who need outreach at scale without an expensive, complicated tool, and with pricing that can be paid locally.",
     solution:
@@ -57,6 +59,7 @@ export const projects: Project[] = [
     technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "Supabase", "Paystack"],
     links: [{ label: "Website", href: "https://shopidict.com" }],
     group: "product",
+    featured: true,
     problem:
       "Store owners can lose conversions to issues in the customer journey that are hard to see from the storefront alone.",
     solution:
@@ -79,6 +82,7 @@ export const projects: Project[] = [
     technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "Supabase", "Paystack"],
     links: [{ label: "Website", href: "https://uipostutme.com" }],
     group: "product",
+    featured: true,
     problem:
       "Candidates preparing for the University of Ibadan Post-UTME need past questions in the formats that exam actually uses, including Roman Series items.",
     solution:
@@ -101,6 +105,7 @@ export const projects: Project[] = [
     technologies: ["Flutter", "Dart"],
     links: [],
     group: "product",
+    featured: true,
     problem:
       "Students need a CGPA record they can update and check without depending on a connection or a school portal.",
     solution:
@@ -160,6 +165,7 @@ export const projects: Project[] = [
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Supabase"],
     links: [{ label: "Website", href: "https://mayusalaro.me" }],
     group: "website",
+    featured: true,
     solution:
       "A Next.js marketing site whose profile, skills, and related content can be updated from an admin panel instead of a code change.",
     features: [
@@ -179,6 +185,7 @@ export const projects: Project[] = [
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
     links: [{ label: "Website", href: "https://beebaexpert.com" }],
     group: "website",
+    featured: true,
     solution:
       "A multi-page portfolio covering the practice, client reviews, store showcases, and contact.",
   },
@@ -256,6 +263,7 @@ export const projects: Project[] = [
 
 export const productProjects = projects.filter((project) => project.group === "product");
 export const websiteProjects = projects.filter((project) => project.group === "website");
+export const featuredProjects = projects.filter((project) => project.featured);
 
 export function getProject(slug: string) {
   return projects.find((project) => project.slug === slug);

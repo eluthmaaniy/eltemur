@@ -2,19 +2,22 @@
 
 import { RiCloseLine, RiMenuLine } from "@remixicon/react";
 import Link from "next/link";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { BrandLink } from "@/components/brand-lockup";
 import { navLinks } from "@/lib/site";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const menuId = useId();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
 
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      menuButtonRef.current?.focus();
     }
 
     document.addEventListener("keydown", onKeyDown);
@@ -41,19 +44,20 @@ export function SiteHeader() {
           ))}
           <Link
             href="/contact"
-            className="inline-flex items-center rounded-md bg-royal px-3.5 py-2 text-sm font-semibold text-white hover:bg-royal-dark"
+            className="inline-flex min-h-10 items-center rounded-md bg-royal px-4 text-sm font-semibold text-white hover:bg-royal-dark"
           >
             Start a Project
           </Link>
         </nav>
         <button
+          ref={menuButtonRef}
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md text-navy lg:hidden"
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-navy lg:hidden"
           aria-expanded={open}
           aria-controls={menuId}
+          aria-label={open ? "Close navigation" : "Open navigation"}
           onClick={() => setOpen((value) => !value)}
         >
-          <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
           {open ? (
             <RiCloseLine aria-hidden="true" size={20} />
           ) : (
@@ -65,7 +69,7 @@ export function SiteHeader() {
         <nav
           id={menuId}
           aria-label="Mobile"
-          className="border-t border-line bg-white px-5 py-4 lg:hidden"
+          className="max-w-full overflow-x-clip border-t border-line bg-white px-5 py-3 lg:hidden"
         >
           <ul className="space-y-1">
             {navLinks.map((link) => (
@@ -83,7 +87,7 @@ export function SiteHeader() {
           <Link
             href="/contact"
             onClick={close}
-            className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-royal px-4 py-3 text-sm font-semibold text-white hover:bg-royal-dark"
+            className="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-royal px-4 py-3 text-sm font-semibold text-white hover:bg-royal-dark"
           >
             Start a Project
           </Link>

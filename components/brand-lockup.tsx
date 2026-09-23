@@ -7,12 +7,6 @@ const horizontalLogo = {
   height: 192,
 };
 
-const mark = {
-  src: "/brand/mark.png",
-  width: 512,
-  height: 512,
-};
-
 type BrandLinkProps = {
   placement?: "header" | "footer";
 };
@@ -22,18 +16,8 @@ export function BrandLink({ placement = "footer" }: BrandLinkProps) {
     <Link
       href="/"
       aria-label="Eltemur Zentra Studio"
-      className="inline-flex items-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-royal"
+      className="inline-flex shrink-0 items-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-royal"
     >
-      {placement === "header" ? (
-        <Image
-          src={mark.src}
-          alt=""
-          width={mark.width}
-          height={mark.height}
-          priority
-          className="h-9 w-9 lg:hidden"
-        />
-      ) : null}
       <Image
         src={horizontalLogo.src}
         alt=""
@@ -41,7 +25,9 @@ export function BrandLink({ placement = "footer" }: BrandLinkProps) {
         height={horizontalLogo.height}
         priority={placement === "header"}
         className={
-          placement === "header" ? "hidden h-10 w-auto lg:block" : "h-9 w-auto sm:h-10"
+          placement === "header"
+            ? "h-auto w-[160px] lg:h-10 lg:w-auto"
+            : "h-9 w-auto sm:h-10"
         }
       />
     </Link>

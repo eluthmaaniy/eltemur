@@ -8,7 +8,7 @@ import type { ContactState } from "@/lib/contact";
 const initialState: ContactState = { status: "idle" };
 
 const fieldClass =
-  "mt-1.5 w-full rounded-md border border-line bg-white px-3 py-2.5 text-base text-navy outline-none focus-visible:border-royal";
+  "mt-1.5 min-h-11 w-full rounded-md border border-line bg-white px-3 py-2.5 text-base text-navy outline-none focus-visible:border-royal";
 
 export function ContactForm() {
   const [state, formAction, pending] = useActionState(submitContact, initialState);
@@ -25,7 +25,8 @@ export function ContactForm() {
 
   return (
     <form action={formAction} className="rounded-lg border border-line bg-white p-5 sm:p-6" noValidate>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <h3 className="text-lg font-semibold text-navy">Tell us about your project</h3>
+      <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:gap-5">
         <Field label="Name" name="name" error={errors.name} autoComplete="name" />
         <Field
           label="Email address"
@@ -96,7 +97,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={pending}
-        className="mt-5 inline-flex w-full items-center justify-center rounded-md bg-royal px-4 py-2.5 text-sm font-semibold text-white hover:bg-royal-dark disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+        className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-royal px-4 text-sm font-semibold text-white hover:bg-royal-dark disabled:cursor-not-allowed disabled:opacity-70 sm:min-h-10 sm:w-auto"
       >
         {pending ? "Submitting…" : "Submit project"}
       </button>
