@@ -7,12 +7,12 @@ export function Hero() {
   return (
     <section className="hero-rise border-b border-line">
       <div className="mx-auto grid w-full max-w-6xl items-center gap-14 px-5 pb-14 pt-8 sm:px-6 sm:py-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16 lg:px-8 lg:py-16">
-        <div className="max-w-xl">
+        <div className="lg:max-w-xl">
           <p className="text-sm font-semibold text-royal">Eltemur Zentra Studio</p>
           <h1 className="mt-3 text-[1.75rem] font-extrabold leading-tight tracking-tight text-navy sm:text-4xl lg:text-[2.6rem] lg:leading-[1.15]">
             We build digital products that solve problems and create value.
           </h1>
-          <p className="mt-4 max-w-lg text-base leading-relaxed text-muted">
+          <p className="mt-4 text-base leading-relaxed text-muted lg:max-w-lg">
             Eltemur Zentra Studio builds SaaS platforms, websites, web applications, mobile
             apps, MVPs, and startup products in Nigeria that help individuals and businesses
             solve problems, improve operations, reach customers, and generate revenue.

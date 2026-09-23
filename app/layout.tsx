@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Poppins } from "next/font/google";
+import { Figtree } from "next/font/google";
 import { Analytics } from "@/components/analytics";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -8,10 +8,10 @@ import { metadataBaseUrl, verificationMetadata } from "@/lib/seo";
 import { indexingEnabled, site } from "@/lib/site";
 import "./globals.css";
 
-const poppins = Poppins({
+const figtree = Figtree({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-poppins",
+  variable: "--font-figtree",
   display: "swap",
 });
 
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${poppins.variable} h-full antialiased`}>
+    <html lang="en" className={`${figtree.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-white font-sans text-navy">
         <a
           href="#main"
