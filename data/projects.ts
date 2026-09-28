@@ -3,6 +3,12 @@ export type ProjectLink = {
   href: string;
 };
 
+export type ProjectLogo = {
+  src: string;
+  fit: "contain" | "cover";
+  focus?: "center" | "top";
+};
+
 export type Project = {
   slug: string;
   name: string;
@@ -13,6 +19,7 @@ export type Project = {
   links: ProjectLink[];
   group: "product" | "website";
   featured?: boolean;
+  logo?: ProjectLogo;
   problem?: string;
   solution?: string;
   features?: string[];
@@ -36,6 +43,7 @@ export const projects: Project[] = [
     ],
     group: "product",
     featured: true,
+    logo: { src: "/projects/scoutier.png", fit: "contain" },
     problem:
       "The product was built for people who need outreach at scale without an expensive, complicated tool, and with pricing that can be paid locally.",
     solution:
@@ -60,6 +68,7 @@ export const projects: Project[] = [
     links: [{ label: "Website", href: "https://shopidict.com" }],
     group: "product",
     featured: true,
+    logo: { src: "/projects/shopidict.png", fit: "contain" },
     problem:
       "Store owners can lose conversions to issues in the customer journey that are hard to see from the storefront alone.",
     solution:
@@ -83,6 +92,7 @@ export const projects: Project[] = [
     links: [{ label: "Website", href: "https://uipostutme.com" }],
     group: "product",
     featured: true,
+    logo: { src: "/projects/uiprep.png", fit: "cover" },
     problem:
       "Candidates preparing for the University of Ibadan Post-UTME need past questions in the formats that exam actually uses, including Roman Series items.",
     solution:
@@ -106,6 +116,7 @@ export const projects: Project[] = [
     links: [],
     group: "product",
     featured: true,
+    logo: { src: "/projects/gradeng.png", fit: "cover" },
     problem:
       "Students need a CGPA record they can update and check without depending on a connection or a school portal.",
     solution:
@@ -166,6 +177,7 @@ export const projects: Project[] = [
     links: [{ label: "Website", href: "https://mayusalaro.me" }],
     group: "website",
     featured: true,
+    logo: { src: "/projects/mayus-alaro.jpg", fit: "cover" },
     solution:
       "A Next.js marketing site whose profile, skills, and related content can be updated from an admin panel instead of a code change.",
     features: [
@@ -186,6 +198,7 @@ export const projects: Project[] = [
     links: [{ label: "Website", href: "https://beebaexpert.com" }],
     group: "website",
     featured: true,
+    logo: { src: "/projects/beeba-expert.jpg", fit: "cover", focus: "top" },
     solution:
       "A multi-page portfolio covering the practice, client reviews, store showcases, and contact.",
   },

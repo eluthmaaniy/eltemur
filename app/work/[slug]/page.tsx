@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { ProjectMark } from "@/components/project-mark";
 import { EnquiryCta } from "@/components/enquiry-cta";
 import { JsonLd } from "@/components/json-ld";
 import { servicesForProject } from "@/data/service-pages";
@@ -68,6 +69,7 @@ function softwareSchema(project: Project) {
     applicationCategory: applicationCategories[project.slug] ?? "BusinessApplication",
     operatingSystem: project.platforms.join(", "),
     url: project.links[0]?.href ?? absoluteUrl(`/work/${project.slug}`),
+    ...(project.logo ? { image: absoluteUrl(project.logo.src) } : {}),
     publisher: { "@id": organizationId() },
   };
 }
@@ -91,9 +93,12 @@ export default async function ProjectPage({ params }: PageProps) {
           ]}
         />
         <p className="mt-6 text-sm font-semibold text-royal">{project.category}</p>
-        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">
-          {project.name}
-        </h1>
+        <div className="mt-3 flex items-center gap-3.5">
+          <ProjectMark project={project} size="md" />
+          <h1 className="text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">
+            {project.name}
+          </h1>
+        </div>
         <p className="mt-4 text-base leading-7 text-muted">{project.summary}</p>
 
         <dl className="mt-8 grid gap-4 border-y border-line py-5 sm:grid-cols-2">

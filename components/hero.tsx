@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProjectMark } from "@/components/project-mark";
 import { productProjects } from "@/data/projects";
 
 const preview = productProjects.slice(0, 4);
@@ -44,16 +45,19 @@ export function Hero() {
               >
                 <Link
                   href={`/work/${project.slug}`}
-                  className="block h-full bg-white p-4 hover:bg-canvas focus-visible:relative sm:p-5"
+                  className="flex h-full items-start gap-3 bg-white p-4 hover:bg-canvas focus-visible:relative sm:p-5"
                 >
-                  <span className="text-[13px] font-semibold uppercase tracking-[0.08em] text-royal">
-                    {project.category}
-                  </span>
-                  <span className="mt-2 block text-base font-semibold text-navy">
-                    {project.name}
-                  </span>
-                  <span className="mt-1 block text-sm leading-6 text-muted">
-                    {project.platforms.join(" · ")}
+                  <ProjectMark project={project} />
+                  <span className="min-w-0">
+                    <span className="text-[13px] font-semibold uppercase tracking-[0.08em] text-royal">
+                      {project.category}
+                    </span>
+                    <span className="mt-1.5 block text-base font-semibold text-navy">
+                      {project.name}
+                    </span>
+                    <span className="mt-1 block text-sm leading-6 text-muted">
+                      {project.platforms.join(" · ")}
+                    </span>
                   </span>
                 </Link>
               </li>

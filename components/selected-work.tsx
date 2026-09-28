@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProjectMark } from "@/components/project-mark";
 import { featuredProjects, productProjects, websiteProjects, type Project } from "@/data/projects";
 
 function ProjectRow({ project }: { project: Project }) {
@@ -6,7 +7,9 @@ function ProjectRow({ project }: { project: Project }) {
     <article className="border-t border-line py-6">
       <div className="grid gap-4 sm:grid-cols-[9.5rem_minmax(0,1fr)] sm:gap-8">
         <p className="text-sm font-medium text-royal">{project.category}</p>
-        <div>
+        <div className="flex items-start gap-3">
+          <ProjectMark project={project} />
+          <div className="min-w-0">
           <h3 className="text-lg font-semibold tracking-tight text-navy">
             <Link href={`/work/${project.slug}`} className="hover:text-royal">
               {project.name}
@@ -43,6 +46,7 @@ function ProjectRow({ project }: { project: Project }) {
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             ))}
+          </div>
           </div>
         </div>
       </div>
