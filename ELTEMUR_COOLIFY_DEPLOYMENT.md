@@ -204,47 +204,61 @@ Coolify deploys the pushed commit. A local-only commit is not enough.
 
 ## 8. Creating the project in Coolify
 
-1. Open the existing Coolify panel.
-2. **Projects → + New**.
-3. Name the project `Eltemur Zentra Studio`.
-4. Open the `production` environment.
-5. Stop when the environment shows **0 resources**.
+Panel: `https://coolify.uipostutme.com` (Coolify v4.3.23). This is the existing panel. Eltemur is its own project inside it.
 
-Do not add this site inside another product’s project. Do not add a database service.
+1. **Projects → + New**.
+2. Name the project `Eltemur Zentra Studio`.
+3. Open the `production` environment.
+4. Confirm **0 resources** before adding anything.
+
+Done on 2026-09-23. The breadcrumb is **Root Team / Eltemur / production**. Do not add this site inside another product’s project. Do not add a database service.
 
 ## 9. Connecting the GitHub repository
 
-Use the GitHub App source already used for other sites on this Coolify instance when it can be limited to selected repositories.
+The GitHub App already attached to this Coolify instance is named `coolify-eltemur`. The repository picker says “Search repositories available through coolify-eltemur.”
 
-1. Coolify → **Sources → GitHub App**.
-2. If Eltemur is not in the selected list, GitHub → the App’s **Repository access → Only select repositories** → add `eltemur` (`eluthmaaniy/eltemur`).
-3. Do not switch the App to all repositories unless you intend that for every repo on the account.
+`eluthmaaniy/eltemur` was already visible on 2026-09-23. No second GitHub App was added.
 
-The GitHub App webhook deploys later pushes. You do not reconnect GitHub for every content change.
+If a future repo is missing from that list: GitHub → the `coolify-eltemur` App → **Repository access → Only select repositories** → add that repo. Do not switch the App to all repositories unless you intend that for every repo on the account.
 
 ## 10. Selecting the correct branch
 
-1. Open project **Eltemur Zentra Studio** → environment **production**.
-2. **+ New Resource → Public or private repository → GitHub App** (the label may read **Git Repository**).
-3. Repository: `eluthmaaniy/eltemur`.
-4. Branch: `main`.
-5. Base directory: `/`.
+On **Eltemur / production**, **+ New** opens **Choose repository**.
+
+| Field on that screen | Value used |
+|---|---|
+| Repository | `eluthmaaniy/eltemur` |
+| Branch | `main` |
+| Base directory | `/` |
+
+The repository field has a **Load Repository** button. It was not required once `eluthmaaniy/eltemur` was already selected.
 
 ## 11. Selecting the correct build pack
 
-Build pack: **Dockerfile**.
+On the same screen, Coolify v4.3.23 defaults **Build pack** to **Railpack**. Change it before **Continue**.
 
-| Setting | Value |
+| Field | Value used |
 |---|---|
-| Dockerfile location | `/Dockerfile` |
+| Build pack | **Dockerfile** |
+| Output type | **Web application** |
+| Port | `3000` (this field appears for Web application) |
 | Base directory | `/` |
-| Static site | Off |
-| Publish directory | Leave empty |
-| Docker Compose | Do not select |
-| Nixpacks | Do not select |
-| Custom install / build / start commands | Leave empty |
 
-The Dockerfile is the build. Extra Coolify install or start commands would fight `npm ci` and `node server.js`.
+Do not select Railpack, Nixpacks, Static, Docker Compose, or **Output type → Static site**.
+
+After **Continue**, the application **General** page showed:
+
+| General field | Confirmed value |
+|---|---|
+| Build pack | Dockerfile |
+| Base directory | `/` |
+| Dockerfile location | `/Dockerfile` |
+| Ports exposed | `3000` |
+| Port mappings | `3000:3000` |
+| Docker network | `coolify` (the proxy network; leave it) |
+| Watch paths | Empty. The grey text `src/pages/**` is a placeholder, not a saved path |
+
+The generated application name in the breadcrumb is `eltemur:main-xnmdxvmbiq6yxjg3csdbxjyg`. The status stays **Exited** until the first deploy. There is no install, build, or start command to fill in. The Dockerfile runs those.
 
 ## 12. Build command
 
@@ -321,9 +335,11 @@ Do not attach this hostname to another application’s domain list.
 
 ## 17. DNS configuration
 
+`eltemur.com` DNS is on **Cloudflare**. Do not open Cloudflare until the Coolify domain card exists and the first deploy is healthy.
+
 Read the IPv4 address from Coolify → **Servers**. That value is `YOUR_COOLIFY_VPS_IPV4`.
 
-At the DNS host for `eltemur.com`:
+In the Cloudflare DNS table for `eltemur.com`:
 
 | Type | Name | Value | Proxy |
 |---|---|---|---|
@@ -332,7 +348,7 @@ At the DNS host for `eltemur.com`:
 
 Leave mail records alone: MX, SPF, DKIM, and DMARC.
 
-If the DNS host is Cloudflare, the cloud must stay grey while Let’s Encrypt uses HTTP-01. An orange-cloud proxy answers the challenge from Cloudflare and the certificate stays invalid.
+The Cloudflare proxy for the new A record must stay **DNS only** (grey cloud) while Let’s Encrypt uses HTTP-01. An orange-cloud proxy answers the challenge from Cloudflare and the certificate stays invalid. After the padlock works, the grey cloud can stay; do not turn the apex orange as part of this setup.
 
 TTL can stay on Auto.
 
@@ -361,7 +377,18 @@ Add `www` only after the apex padlock works, then Restart again.
 
 ## 19. Required environment variables
 
-Enter these on the Eltemur application in Coolify. Never put the values in Git, the Dockerfile, or this file.
+Open the application → left sidebar → **Environment Variables**.
+
+On Coolify v4.3.23 leave these two controls as they first appear:
+
+| Control | Keep |
+|---|---|
+| Environment variable order | **Creation order** |
+| Build secrets | **Standard build arguments** |
+
+**Docker BuildKit secrets** does not fill the `ARG` lines in the Dockerfile. The site URL would fall back inside the image instead of using the Coolify value.
+
+Enter variables with **+ Add**. Never put the values in Git, the Dockerfile, or this file.
 
 | Name | Required | Buildtime | Runtime | Value |
 |---|---|---|---|---|
@@ -397,18 +424,28 @@ Do not set `VERCEL_ENV`. Do not add database URLs.
 
 The container also has a Docker `HEALTHCHECK`. Configure the same path in Coolify so a failed process is restarted.
 
+On this Coolify version the page is the left sidebar item **Healthcheck**, not a separate URL. Confirmed fields on 2026-09-23:
+
 | Field | Value |
 |---|---|
-| Enabled | On |
+| Check type | HTTP request |
 | Method | GET |
-| Scheme | http |
-| Path | `/api/health` |
+| Scheme | HTTP |
+| Host | `localhost` |
 | Port | `3000` |
-| Expected status | `200` |
+| Path | `/api/health` |
+| Expected code | `200` |
+| Expected response text | Leave empty |
 | Interval | 30 seconds |
 | Timeout | 5 seconds |
 | Retries | 3 |
 | Start period | 20 seconds |
+
+The path must use forward slashes and start with `/`. `\api\health\` is rejected with “The health check path field format is invalid.”
+
+Leave **Expected response text** empty. The body is JSON, `{"status":"ok","service":"eltemur-zentra-studio"}`. A required text of `OK` does not match that body.
+
+Save with the purple **Enable** button. The route does not return environment variables, versions, or host details. `robots.txt` disallows `/api/`, so this path is not an indexed page.
 
 Successful body:
 
@@ -533,15 +570,19 @@ Two logs matter:
 
 This site shares the VPS. Limits below are for the **running** container. The Docker build needs more RAM than the running site and should keep using the server’s normal build capacity.
 
-| Setting | Starting value |
-|---|---|
-| Runtime memory limit | 512 MB |
-| Runtime memory reservation | 256 MB |
-| Runtime CPUs | 1 |
-| Restart policy | unless-stopped |
-| Health interval | 30 seconds |
-| Deployment retention | Keep at least 2 successful deployments so rollback exists |
-| Log retention | Coolify’s existing server default. Do not ship logs to another project |
+| Setting | Coolify field | Starting value |
+|---|---|---|
+| Runtime memory limit | Memory limit | `512m` |
+| Runtime memory plus swap | Memory and swap limit | `512m` |
+| Runtime memory reservation | Memory reservation | `256m` |
+| Runtime CPUs | CPU limit | `1` |
+| CPU set | CPU set | Leave empty. Grey `0-2` is a placeholder |
+| CPU weight | CPU weight | Leave empty. Grey `1024` is a placeholder |
+| Swappiness | Swappiness | Leave empty. Grey `60` is a placeholder |
+| Restart policy | Coolify default unless-stopped | unchanged |
+| Health interval | Healthcheck interval | 30 seconds |
+| Deployment retention | Deployments list | Keep at least 2 successful deployments so rollback exists |
+| Log retention | Server log settings | Coolify’s existing server default. Do not ship logs to another project |
 
 Idle Node usage for this site is well under 512 MB. If the application is OOM-killed while generating images, raise the runtime limit to 768 MB. Do not start below 512 MB.
 
@@ -569,15 +610,15 @@ Do not add a database to this Dockerfile. Do not mount a volume on this containe
 - [ ] Canonical URLs use `https://eltemur.com`
 - [ ] `docker build` and a restarted container return `/api/health` 200
 - [ ] `.env.local` is not in Git
-- [ ] `main` is pushed to `https://github.com/eluthmaaniy/eltemur.git`
-- [ ] Coolify project **Eltemur Zentra Studio** / `production` exists and is empty of other products’ services
-- [ ] Resource uses build pack **Dockerfile**, port **3000**, static site off
-- [ ] Install, build, start, and publish directory are empty
-- [ ] `NEXT_PUBLIC_SITE_URL=https://eltemur.com` is available at build time
-- [ ] Health check is `GET /api/health` on port 3000
-- [ ] Runtime memory limit is 512 MB
-- [ ] First Deploy is healthy before DNS changes
-- [ ] `https://eltemur.com` is port 3000, then the apex A record points at `YOUR_COOLIFY_VPS_IPV4`
+- [x] `main` is pushed to `https://github.com/eluthmaaniy/eltemur.git` (`091407f`, 2026-09-23)
+- [x] Coolify project **Eltemur** / `production` exists and does not contain another product’s database
+- [x] Resource uses build pack **Dockerfile**, output **Web application**, port **3000**
+- [x] Install, build, start, and publish directory were left empty
+- [x] `NEXT_PUBLIC_SITE_URL=https://eltemur.com` is saved with buildtime and runtime enabled (2026-09-23)
+- [x] Healthcheck enabled and saved (2026-09-23). Path `/api/health`, or `/` if Coolify rejected the longer path
+- [x] Runtime memory limit is `512m`, reservation `256m`, swap `512m`, CPU limit `1`
+- [x] First Deploy is healthy (2026-09-23, commit `091407f`, about 2 minutes). Container status **Running**
+- [x] Apex A record is `eltemur.com` → `147.93.85.240`, Cloudflare proxy **DNS only**, TTL Auto (2026-09-23). No `www` record yet. No mail records exist on this zone
 - [ ] Certificate is valid before `www` is added
 - [ ] Section 22 and section 23 pass on the public URL
 
@@ -597,9 +638,8 @@ Still required before the live Coolify deploy:
 | Placeholder | Where it goes | Notes |
 |---|---|---|
 | `YOUR_COOLIFY_VPS_IPV4` | DNS A records | Copy from Coolify → Servers. Do not guess it from another project’s notes |
-| DNS host login for `eltemur.com` | Your DNS provider | Needed to create the A records and to leave mail records unchanged |
-| Coolify server | New resource form | Choose the existing VPS if Coolify lists more than one server |
-| Confirmation that `main` has been pushed | GitHub | This working copy has a remote and no commits yet. Coolify cannot clone it until you commit and push |
+| DNS host login for `eltemur.com` | Cloudflare | Confirmed 2026-09-23. Create the A records only after the first deploy is healthy. Leave MX, SPF, DKIM, and DMARC unchanged |
+| Coolify server | Already the server behind `coolify.uipostutme.com` | The resource was created on that instance |
 | `CONTACT_FORM_ENDPOINT` | Coolify runtime env | Leave empty to keep the current “message was not sent” behaviour |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Coolify build and runtime | Empty until Search Console gives you the token |
 | `NEXT_PUBLIC_BING_SITE_VERIFICATION` | Coolify build and runtime | Empty until Bing gives you the token |
@@ -607,3 +647,24 @@ Still required before the live Coolify deploy:
 | `INDEXNOW_KEY` | Coolify build and runtime | Empty until you choose a public IndexNow key |
 
 `NEXT_PUBLIC_SITE_URL` is known (`https://eltemur.com`) but you still type it into Coolify and mark it available at build time. An empty value falls back to that same origin; set it explicitly so the production build is not depending on the fallback.
+
+## Session log
+
+Append a row when a Coolify screen is confirmed. Do not paste secret values.
+
+| When | Screen | Outcome |
+|---|---|---|
+| 2026-09-23 | GitHub `eluthmaaniy/eltemur` | `main` pushed, commit `091407f`. `.env.local` stayed untracked |
+| 2026-09-23 | Coolify project | **Eltemur / production** created on `https://coolify.uipostutme.com` (v4.3.23) |
+| 2026-09-23 | Domain owner | `eltemur.com` DNS is Cloudflare. DNS not changed |
+| 2026-09-23 | Choose repository | `eluthmaaniy/eltemur`, branch `main`, base `/`. Build pack changed from the default **Railpack** to **Dockerfile**. Output type **Web application**. Port `3000` |
+| 2026-09-23 | Application General | Dockerfile location `/Dockerfile`, ports `3000`, mapping `3000:3000`, network `coolify`. Watch paths left empty (`src/pages/**` is only placeholder text). Status **Exited**, no container yet. Application id in the breadcrumb: `eltemur:main-xnmdxvmbiq6yxjg3csdbxjyg` |
+| 2026-09-23 | Environment Variables | Order **Creation order**. Build secrets **Standard build arguments**. Saved `NEXT_PUBLIC_SITE_URL=https://eltemur.com` with buildtime and runtime on. No other variables added |
+| 2026-09-23 | Healthcheck | Page is left sidebar **Healthcheck**. Check type **HTTP request**, method **GET**, scheme **HTTP**, host `localhost`, port `3000`, expected code `200`. Path must be forward slashes (`/api/health`). Backslashes produce “The health check path field format is invalid.” Expected response text stays empty; grey `OK` is a placeholder. Enabled and saved |
+| 2026-09-23 | General → CPU and Memory | Confirmed values: CPU limit `1`, memory reservation `256m`, memory limit `512m`, memory and swap limit `512m`. CPU set, CPU weight, and Swappiness stay empty when the text is only a placeholder (`0-2`, `1024`, `60`) |
+| 2026-09-23 | First deploy | **Actions → Deploy**. Status **Running**. Deployment history: **Success**, source Manual, commit `091407f`, duration `02m 02s`, server `localhost`. Log: image built, custom Dockerfile healthcheck found, attempt 1 of 3 healthy, return code 0, rolling update completed |
+| 2026-09-23 | Domains | User saved the domain card for `eltemur.com`. VPS IPv4 shown by Coolify on this application is `147.93.85.240` (the `sslip.io` preview host) |
+| 2026-09-23 | Cloudflare DNS | One A record: name `eltemur.com`, content `147.93.85.240`, proxy **DNS only**, TTL Auto. Cloudflare’s “add www” and “add MX” recommendations were left alone. Zone has no other records |
+| 2026-09-23 | Browser NXDOMAIN | Coolify Domains shows `https://eltemur.com` as **DNS matches**, port `3000`. After **Restart**, `https://eltemur.com/api/health` returns `200` with a trusted certificate when the request uses `147.93.85.240`. Mobile phones open the site. This PC’s router DNS (`fd64:6831:f99c:8::1`) still returns the name with no address, so this PC’s browser shows `DNS_PROBE_FINISHED_NXDOMAIN`. `1.1.1.1` returns `147.93.85.240` |
+
+The live site is up. This computer needs a DNS resolver that already has the record, or time for the router cache to expire. Do not change the Cloudflare A record. Do not push a documentation commit until you choose to, because a push to `main` can start another build.
