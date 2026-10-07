@@ -272,6 +272,18 @@ export const projects: Project[] = [
       "Reviews with a load-more view",
     ],
   },
+  {
+    slug: "adex",
+    name: "Adex",
+    summary: "Portfolio website for Adex, a Shopify store expert.",
+    category: "Website",
+    platforms: ["Web"],
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+    links: [{ label: "Website", href: "https://adex.com.ng" }],
+    group: "website",
+    solution:
+      "A personal portfolio covering Shopify services, storefront work, client reviews, and enquiries.",
+  },
 ];
 
 export const productProjects = projects.filter((project) => project.group === "product");

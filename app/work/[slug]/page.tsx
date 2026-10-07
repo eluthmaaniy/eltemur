@@ -29,6 +29,7 @@ const titles: Record<string, string> = {
   "sumar-ecom-support": "Sumar Ecom Support Website | Eltemur Zentra Studio",
   adoltech: "Adoltech Portfolio Website | Eltemur Zentra Studio",
   "rafad-expert": "Rafad Expert Portfolio Website | Eltemur Zentra Studio",
+  adex: "Adex Portfolio Website | Eltemur Zentra Studio",
 };
 
 const applicationCategories: Record<string, string> = {

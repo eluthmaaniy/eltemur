@@ -176,6 +176,7 @@ export const servicePages: ServicePage[] = [
       "sumar-ecom-support",
       "adoltech",
       "rafad-expert",
+      "adex",
     ],
     faqs: [
       {
