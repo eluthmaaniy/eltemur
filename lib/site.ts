@@ -48,7 +48,7 @@ export const contentUpdated = "2026-09-23";
 
 export const businessInfo = {
   name: "Eltemur Zentra Studio",
-  email: "eltemurzentra@gmail.com",
+  email: "eltemurzentrastudio@gmail.com",
   phoneDisplay: "+234 807 737 9147",
   phoneInternational: "+2348077379147",
   whatsappUrl:

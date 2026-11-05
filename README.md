@@ -19,7 +19,7 @@ The form validates on the server. It does not send email until you set an endpoi
 2. Set `CONTACT_FORM_ENDPOINT` to an HTTPS URL that accepts a JSON POST.
 3. Restart the dev server.
 
-The posted JSON includes `to` (`eltemurzentra@gmail.com`), `name`, `email`, `company`, `projectType`, `budget`, `description`, and `source`. If `CONTACT_FORM_ENDPOINT` is empty, the form tells the visitor the message was not sent and points them to the email and WhatsApp links.
+The posted JSON includes `to` (`eltemurzentrastudio@gmail.com`), `name`, `email`, `company`, `projectType`, `budget`, `description`, and `source`. If `CONTACT_FORM_ENDPOINT` is empty, the form tells the visitor the message was not sent and points them to the email and WhatsApp links.
 
 `CONTACT_FORM_ENDPOINT` must use `https`. It is read only on the server.
 

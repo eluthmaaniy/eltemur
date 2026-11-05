@@ -405,7 +405,7 @@ Enter variables with **+ Add**. Never put the values in Git, the Dockerfile, or 
 
 ```json
 {
-  "to": "eltemurzentra@gmail.com",
+  "to": "eltemurzentrastudio@gmail.com",
   "name": "string",
   "email": "string",
   "company": "string",
