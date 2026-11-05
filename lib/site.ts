@@ -44,7 +44,7 @@ export function absoluteUrl(path = "/") {
   return `${base}${normalized}`;
 }
 
-export const contentUpdated = "2026-09-23";
+export const contentUpdated = "2026-11-05";
 
 export const businessInfo = {
   name: "Eltemur Zentra Studio",
@@ -85,4 +85,5 @@ export const navLinks = [
 export const footerLinks = [
   ...navLinks,
   { href: "/insights", label: "Insights" },
+  { href: "/terms", label: "Terms of Service" },
 ] as const;

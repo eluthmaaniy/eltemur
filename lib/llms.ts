@@ -48,6 +48,7 @@ ${notes}
 ## About
 
 - [About ${businessInfo.name}](${absoluteUrl("/about")})
+- [Terms of Service](${absoluteUrl("/terms")}): terms for this website, client work, and the products the studio publishes
 
 ## Contact
 

@@ -19,6 +19,7 @@ export function organizationNode() {
     description: schemaDescription,
     email: businessInfo.email,
     telephone: businessInfo.phoneInternational,
+    termsOfService: absoluteUrl("/terms"),
     foundingDate: businessInfo.foundingDate,
     identifier: {
       "@type": "PropertyValue",

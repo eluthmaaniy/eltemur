@@ -14,6 +14,7 @@ const paths = [
   "/work",
   ...projects.map((project) => `/work/${project.slug}`),
   "/contact",
+  "/terms",
   "/insights",
   ...articles.map((article) => `/insights/${article.slug}`),
 ];
