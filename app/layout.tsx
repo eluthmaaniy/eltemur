@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Figtree } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@/components/analytics";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -8,11 +8,12 @@ import { metadataBaseUrl, verificationMetadata } from "@/lib/seo";
 import { indexingEnabled, site } from "@/lib/site";
 import "./globals.css";
 
-const figtree = Figtree({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-figtree",
+const figtree = localFont({
+  src: "./fonts/figtree-latin.woff2",
+  weight: "400 800",
   display: "swap",
+  variable: "--font-figtree",
+  adjustFontFallback: "Arial",
 });
 
 export const metadata: Metadata = {
