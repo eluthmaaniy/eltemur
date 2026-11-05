@@ -27,6 +27,29 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "cartumi",
+    name: "Cartumi",
+    summary:
+      "A digital marketplace of ready-made tools for e-commerce merchants. Buyers pay once, and Cartumi sends access to the files after the payment is confirmed.",
+    category: "Marketplace",
+    platforms: ["Web"],
+    technologies: ["Go", "PostgreSQL", "Astro", "TypeScript"],
+    links: [{ label: "Website", href: "https://cartumi.com" }],
+    group: "product",
+    featured: true,
+    logo: { src: "/projects/cartumi.png", fit: "contain" },
+    problem:
+      "Merchants and the developers who support them need practical store tools without commissioning a custom project for every task.",
+    solution:
+      "Cartumi is a product built by Eltemur Zentra Studio. Customers buy prepared digital products. Payment is confirmed with the payment provider before files are released, and invited developers can share a permanent link that credits eligible sales.",
+    features: [
+      "Catalogue of digital products for online stores",
+      "One-time checkout, with payment confirmed before fulfilment",
+      "Delivery of files by email after payment",
+      "Permanent developer links for invited developers",
+    ],
+  },
+  {
     slug: "scoutier",
     name: "Scoutier",
     summary:
